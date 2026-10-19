@@ -1,1018 +1,515 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Krythium Anniversary 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>21st Anniversary Celebration of Krythium</title>
     
     <!-- Open Graph tags for WhatsApp & Social Sharing -->
-    <meta property="og:title" content="Krythium Anniversary 2026">
-    <meta property="og:description" content="Join us at Chacolas Pavilion on November 1, 2026, for a bright and joyous celebration of our journey.">
+    <meta property="og:title" content="21st Anniversary Celebration of Krythium">
+    <meta property="og:description" content="Join us with family to celebrate 21 Years of Krythium at Galleria, Chakolas Pavilion, Kalamassery on November 1, 2026.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-    <meta property="og:url" content="https://davis-1011.github.io/krythium-2026/">
     <meta property="og:type" content="website">
 
-    <!-- Google Fonts (with graceful system fallbacks if offline/sandboxed) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* =========================================================
-           1. BASE RESET & VARIABLES (Zero Tailwind CDN Dependency)
-           ========================================================= */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
         :root {
             --color-sky-top: #4db8ff;
             --color-sky-bottom: #99d6ff;
-            --color-sunflower: #ffd700;
-            --color-sunflower-dark: #d48c00;
-            --color-text-main: #333333;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-            height: 100%;
+            --sunflower-yellow: #EDC015;
+            --golden-brown: #BB660B;
+            --ivory: #F8F1DC;
+            --sage-green: #7C8C2E;
+            --forest-green: #41532C;
         }
 
         body {
-            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: var(--color-text-main);
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
+            font-family: 'Montserrat', sans-serif;
             background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%);
-            background-color: var(--color-sky-top);
+            background-attachment: fixed;
+            color: #333333;
             overflow-x: hidden;
-            width: 100%;
-            -webkit-font-smoothing: antialiased;
-            position: relative;
-        }
-
-        /* Hardware-accelerated fixed sky background layer (z-index: 0 so iOS doesn't hide it behind body) */
-        .fixed-sky-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%);
-            z-index: 0;
-            pointer-events: none;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+            min-height: 100vh;
+            min-height: 100dvh; 
+            -webkit-tap-highlight-color: transparent;
         }
 
         .font-script {
-            font-family: 'Dancing Script', 'Apple Chancery', 'Snell Roundhand', cursive;
+            font-family: 'Dancing Script', cursive;
         }
 
         .text-shadow-soft {
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.25);
+            text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Gold Title Shimmer Effect */
+        .title-shimmer {
+            background: linear-gradient(90deg, #ffffff 0%, #fff2a3 50%, #ffffff 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 4s linear infinite;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.65);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
         }
 
-        /* =========================================================
-           2. PURE CSS GATE TOGGLE (Works even if iOS blocks JS!)
-           ========================================================= */
-        #invite-toggle {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            width: 0;
-            height: 0;
-        }
-
-        /* Envelope Cover */
         #envelope-cover {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 40;
-            background: linear-gradient(180deg, #4db8ff 0%, #99d6ff 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.25rem;
-            overflow: hidden;
-            transition: opacity 0.85s ease-in-out, visibility 0.85s ease-in-out;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
+            transition: opacity 1s ease-in-out, visibility 1s;
         }
-
-        /* Main Content */
-        #main-content {
-            position: relative;
-            z-index: 10;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        /* When checkbox is checked (Pure CSS fallback) OR JS adds .is-open */
-        #invite-toggle:checked ~ #envelope-cover,
-        body.is-open #envelope-cover {
+        .cover-hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        #invite-toggle:checked ~ #main-content,
-        body.is-open #main-content {
-            display: flex !important;
-        }
-
-        /* Pure CSS fallback: ensure reveal items show up even if JS scroll observer is blocked */
-        #invite-toggle:checked ~ #main-content .reveal {
-            animation: cssRevealFallback 0.8s ease-out 0.3s forwards;
-        }
-        @keyframes cssRevealFallback {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-                -webkit-transform: translateY(0);
-            }
-        }
-
-        /* =========================================================
-           3. ANIMATIONS & CLOUDS
-           ========================================================= */
-        .pulse-btn {
-            display: inline-block;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            background-color: var(--color-sunflower);
-            color: #5c3e1e;
-            font-weight: 700;
-            padding: 0.9rem 2.25rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.95rem;
-            border: none;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-            transition: background-color 0.25s ease;
-        }
-        .pulse-btn:hover, .pulse-btn:active {
-            background-color: #ffed4a;
-        }
-
-        @keyframes pulse-ring {
-            0% { -webkit-transform: scale(0.95); transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
-            70% { -webkit-transform: scale(1.05); transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255, 215, 0, 0); }
-            100% { -webkit-transform: scale(0.95); transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-        }
-
         .reveal {
             opacity: 0;
-            transform: translateY(28px);
-            -webkit-transform: translateY(28px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out, -webkit-transform 0.8s ease-out;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
         .reveal.active {
-            opacity: 1 !important;
-            transform: translateY(0) !important;
-            -webkit-transform: translateY(0) !important;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .particle {
             position: fixed;
             pointer-events: none;
-            z-index: 1;
+            z-index: 0;
             animation: float-up linear infinite;
-            -webkit-transform: translateZ(0);
-            transform: translateZ(0);
         }
         @keyframes float-up {
-            0% { -webkit-transform: translateY(100vh) rotate(0deg); transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             90% { opacity: 0.8; }
-            100% { -webkit-transform: translateY(-10vh) rotate(360deg); transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         .bounce-arrow {
             animation: bounce 2s infinite;
         }
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { -webkit-transform: translateY(0); transform: translateY(0); }
-            40% { -webkit-transform: translateY(-15px); transform: translateY(-15px); }
-            60% { -webkit-transform: translateY(-7px); transform: translateY(-7px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
+        /* Moving Clouds Animation */
         @keyframes drift {
-            from { -webkit-transform: translateX(-150%); transform: translateX(-150%); }
-            to { -webkit-transform: translateX(110vw); transform: translateX(110vw); }
-        }
-        .cloud-container {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
+            from { transform: translateX(-150%); }
+            to { transform: translateX(150vw); }
         }
         .cloud-moving {
             position: absolute;
             animation: drift linear infinite;
             color: rgba(255, 255, 255, 0.6);
         }
-        .cloud-1 { top: 10%; animation-duration: 35s; width: 85px; }
-        .cloud-2 { top: 25%; animation-duration: 45s; width: 140px; opacity: 0.4; animation-delay: -15s; }
-        .cloud-3 { top: 55%; animation-duration: 25s; width: 75px; opacity: 0.8; animation-delay: -5s; }
-
-        /* =========================================================
-           4. LAYOUT & COMPONENT STYLES
-           ========================================================= */
-        .audio-btn {
-            cursor: pointer;
-            position: fixed;
-            top: 1.25rem;
-            right: 1.25rem;
-            z-index: 50;
-            width: 2.6rem;
-            height: 2.6rem;
-            border-radius: 9999px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.6s ease, background-color 0.3s ease;
-        }
-        .audio-btn.visible {
-            opacity: 1;
-        }
-        .hidden {
-            display: none !important;
-        }
-
-        .cover-inner {
-            max-width: 36rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            padding: 0.5rem;
-        }
-        .cover-subtitle {
-            text-transform: uppercase;
-            letter-spacing: 0.22em;
-            font-size: 0.8rem;
-            color: #ffffff;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.18);
-        }
-        .cover-title {
-            font-size: 3.5rem;
-            line-height: 1.15;
-            margin-bottom: 2.5rem;
-            color: #ffffff;
-            padding: 0.5rem 0;
-        }
-
-        /* Bottom Floral Border */
-        .bottom-border-decor {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6.5rem;
-            pointer-events: none;
-            z-index: 2;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 0 0.5rem;
-            opacity: 0.92;
-            overflow: hidden;
-        }
-        .flower-lg { font-size: 3rem; margin-bottom: -0.8rem; }
-        .flower-xl { font-size: 3.75rem; margin-bottom: -1.1rem; transform: scaleX(-1); }
-        .flower-md { font-size: 2.35rem; margin-bottom: -0.4rem; }
-        .cloud-sm { font-size: 2rem; margin-bottom: -0.25rem; }
-
-        /* Sections */
-        .section-hero {
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4.5rem 1.25rem 5rem;
-            text-align: center;
-            position: relative;
-            width: 100%;
-            z-index: 10;
-        }
-        .hero-title {
-            font-size: 2.75rem;
-            line-height: 1.15;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-        }
-        .hero-card {
-            border-radius: 1rem;
-            padding: 1.35rem;
-            max-width: 36rem;
-            margin: 0.5rem auto 0;
-            width: 100%;
-        }
-        .hero-text {
-            font-size: 1.05rem;
-            line-height: 1.65;
-            color: #1f2937;
-            font-weight: 500;
-        }
-        .hero-arrow-wrap {
-            position: absolute;
-            bottom: 3rem;
-            color: #ffffff;
-        }
-
-        .section-standard {
-            padding: 3.5rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            z-index: 10;
-            position: relative;
-        }
-
-        /* Save The Date Card */
-        .date-card {
-            padding: 2.25rem 1.5rem;
-            border-radius: 2rem;
-            position: relative;
-            max-width: 42rem;
-            width: 100%;
-            overflow: hidden;
-        }
-        .corner-flower {
-            position: absolute;
-            font-size: 1.6rem;
-            opacity: 0.8;
-        }
-        .cf-tl { top: 0.6rem; left: 0.6rem; transform: rotate(-12deg); }
-        .cf-tr { top: 0.6rem; right: 0.6rem; transform: rotate(12deg); }
-        .cf-bl { bottom: 0.6rem; left: 0.6rem; transform: rotate(12deg); }
-        .cf-br { bottom: 0.6rem; right: 0.6rem; transform: rotate(-12deg); }
-
-        .eyebrow {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: #4b5563;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-        }
-        .date-highlight {
-            font-size: 2.75rem;
-            color: var(--color-sunflower-dark);
-            font-weight: 700;
-            margin-bottom: 0.35rem;
-        }
-        .year-highlight {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1f2937;
-        }
-
-        /* Program & Dress Code Grid */
-        .two-col-section {
-            padding: 3rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            align-items: stretch;
-            justify-content: center;
-            width: 100%;
-            max-width: 64rem;
-            z-index: 10;
-        }
-        .info-card {
-            padding: 1.75rem;
-            border-radius: 1.5rem;
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-        }
-        .watermark-emoji-tr {
-            position: absolute;
-            right: -1.75rem;
-            top: -1.75rem;
-            opacity: 0.12;
-            font-size: 6rem;
-            pointer-events: none;
-        }
-        .watermark-emoji-bl {
-            position: absolute;
-            left: -1.75rem;
-            bottom: -1.75rem;
-            opacity: 0.12;
-            font-size: 6rem;
-            pointer-events: none;
-        }
-        .section-heading {
-            font-size: 2.25rem;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 10;
-        }
-        .timeline-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-            text-align: left;
-            position: relative;
-            z-index: 10;
-        }
-        .timeline-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.85rem;
-        }
-        .time-badge {
-            background-color: var(--color-sunflower);
-            color: #111827;
-            font-weight: 700;
-            padding: 0.3rem 0.65rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            margin-top: 0.15rem;
-            min-width: 4.6rem;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-        .timeline-title {
-            font-weight: 700;
-            color: #1f2937;
-            font-size: 1rem;
-            margin-bottom: 0.15rem;
-        }
-        .timeline-desc {
-            font-size: 0.82rem;
-            color: #374151;
-            line-height: 1.4;
-        }
-
-        /* Countdown Grid */
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.6rem;
-            max-width: 42rem;
-            margin: 0 auto;
-            width: 100%;
-        }
-        .cd-box {
-            padding: 0.85rem 0.4rem;
-            border-radius: 0.85rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .cd-number {
-            font-size: 1.65rem;
-            color: #1f2937;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-        }
-        .cd-number-accent {
-            color: var(--color-sunflower-dark);
-        }
-        .cd-label {
-            font-size: 0.62rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: #4b5563;
-            letter-spacing: 0.05em;
-        }
-
-        /* Venue Card */
-        .venue-card {
-            padding: 2rem 1.5rem;
-            border-radius: 2rem;
-            max-width: 42rem;
-            width: 100%;
-        }
-        .venue-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-        }
-        .venue-line {
-            height: 2px;
-            width: 2.25rem;
-            background-color: var(--color-sunflower);
-        }
-        .map-btn {
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            background-color: var(--color-sunflower);
-            border: 2px solid var(--color-sunflower);
-            color: #111827;
-            font-weight: 700;
-            padding: 0.8rem 1.75rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.8rem;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            transition: all 0.25s ease;
-        }
-        .map-btn:hover, .map-btn:active {
-            background-color: transparent;
-            color: #111827;
-        }
-
-        .footer {
-            padding: 2.5rem 1rem 9rem;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            font-weight: 700;
-            width: 100%;
-            z-index: 10;
-        }
-
-        /* Responsive Breakpoints (Tablet & Desktop) */
-        @media (min-width: 640px) {
-            .cover-title { font-size: 4.75rem; }
-            .pulse-btn { font-size: 1.1rem; padding: 1rem 2.5rem; }
-            .hero-title { font-size: 4rem; }
-            .hero-card { padding: 1.75rem; }
-            .hero-text { font-size: 1.2rem; }
-            .date-card { padding: 3.5rem 2.5rem; border-radius: 3rem; }
-            .date-highlight { font-size: 3.5rem; }
-            .year-highlight { font-size: 2.25rem; }
-            .countdown-grid { gap: 1rem; }
-            .cd-box { padding: 1.35rem 1rem; border-radius: 1rem; }
-            .cd-number { font-size: 2.75rem; }
-            .cd-label { font-size: 0.75rem; }
-            .venue-card { padding: 2.75rem; }
-            .bottom-border-decor { padding: 0 2.5rem; height: 8rem; }
-            .flower-lg { font-size: 4.25rem; }
-            .flower-xl { font-size: 5.25rem; }
-            .flower-md { font-size: 3.5rem; }
-        }
-
+        
+        .cloud-1 { top: 8%; animation-duration: 35s; width: 80px; }
+        .cloud-2 { top: 22%; animation-duration: 45s; width: 120px; opacity: 0.4; animation-delay: -15s; }
+        .cloud-3 { top: 55%; animation-duration: 25s; width: 70px; opacity: 0.8; animation-delay: -5s; }
+        .cloud-4 { top: 75%; animation-duration: 40s; width: 140px; opacity: 0.5; animation-delay: -20s; }
+        
         @media (min-width: 768px) {
-            .two-col-section {
-                flex-direction: row;
-                gap: 2rem;
-            }
             .cloud-1 { width: 120px; }
             .cloud-2 { width: 180px; }
             .cloud-3 { width: 90px; }
+            .cloud-4 { width: 220px; }
         }
     </style>
-
-    <!-- Fallback if opened inside a strict sandboxed viewer where JS is completely disabled -->
-    <noscript>
-        <style>
-            #envelope-cover { display: none !important; }
-            #main-content { display: flex !important; }
-            .reveal { opacity: 1 !important; transform: none !important; -webkit-transform: none !important; }
-            #audio-toggle { display: none !important; }
-        </style>
-    </noscript>
 </head>
-<body>
-
-    <!-- Pure CSS Checkbox State Fallback (allows opening even if JS is blocked on iOS) -->
-    <input type="checkbox" id="invite-toggle" aria-hidden="true">
-
-    <!-- Fixed Sky Background Layer -->
-    <div class="fixed-sky-bg"></div>
+<body class="antialiased selection:bg-[#EDC015] selection:text-[#333]">
 
     <!-- Background Audio -->
-    <audio id="bg-music" loop playsinline webkit-playsinline preload="auto">
+    <audio id="bg-music" loop playsinline>
         <source src="https://assets.mixkit.co/music/preview/mixkit-a-very-happy-christmas-897.mp3" type="audio/mpeg">
     </audio>
 
-    <button id="audio-toggle" class="audio-btn glass-panel" aria-label="Toggle Audio" type="button">
-        <svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256" class="hidden">
+    <button id="audio-toggle" class="cursor-pointer fixed top-4 right-4 z-50 w-11 h-11 rounded-full glass-panel text-gray-800 flex items-center justify-center opacity-0 transition-opacity duration-1000 active:scale-95 shadow-md" aria-label="Toggle Audio">
+        <svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256" class="hidden">
             <path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM144,207.64,83.91,160.89A8,8,0,0,0,79,160H32V96H79a8,8,0,0,0,4.91-.89L144,48.36ZM213.92,106.62a8,8,0,0,0-11.84,10.76,32,32,0,0,1,0,37.24,8,8,0,1,0,11.84,10.76,48,48,0,0,0,0-58.76ZM244,82a8,8,0,0,0-11.84,10.74,64,64,0,0,1,0,74.52A8,8,0,0,0,244,178,80,80,0,0,0,244,82Z"></path>
         </svg>
-        <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
+        <svg id="icon-muted" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256">
             <path d="M214.28,219.72a8,8,0,0,1-11.31,0l-17-17A80.08,80.08,0,0,1,160,224a8,8,0,0,1-4.49-15.15,64.21,64.21,0,0,0,20.84-15.71l-24.51-24.5a31.76,31.76,0,0,1-11.85,15,8,8,0,1,1-9-13.23,15.72,15.72,0,0,0,4.44-5.32l-10-10L50.28,155.72A8,8,0,0,1,39,144.41L53.25,130.13,36.28,113.16A8,8,0,0,1,47.6,101.84l154.68,154.68A8,8,0,0,1,214.28,219.72Zm-19.14-53.07a8,8,0,0,0-4-15A48,48,0,0,0,195,108.57,8,8,0,1,0,183.18,97.8,64,64,0,0,1,196.43,159,8,8,0,0,0,195.14,166.65ZM236.4,74.45a8,8,0,1,0-11.84,10.74A64.12,64.12,0,0,1,241.6,128a63.67,63.67,0,0,1-9.5,33.56,8,8,0,0,0,4.1,10.87,7.88,7.88,0,0,0,3.1.62,8,8,0,0,0,6.86-3.84A79.52,79.52,0,0,0,257.6,128,80.17,80.17,0,0,0,236.4,74.45ZM155.51,24.81a8,8,0,0,0-8.42.88L94,66.9A8,8,0,0,0,103.8,79.54l40.2-31.18v48a8,8,0,0,0,16,0V32A8,8,0,0,0,155.51,24.81Z"></path>
         </svg>
     </button>
 
-    <!-- Envelope Cover -->
-    <div id="envelope-cover">
-        <div class="cloud-container">
+    <!-- COVER PAGE -->
+    <div id="envelope-cover" class="fixed inset-0 z-40 bg-gradient-to-b from-[#4db8ff] to-[#99d6ff] flex flex-col items-center justify-center p-4 sm:p-6 text-center h-[100vh] h-[100dvh] overflow-hidden">
+        
+        <!-- Animated Sky Clouds -->
+        <div class="absolute inset-0 z-0 pointer-events-none">
             <svg class="cloud-moving cloud-1" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 19C19.9853 19 22 16.9853 22 14.5C22 12.1325 20.176 10.2016 17.8596 10.011C17.4042 6.61868 14.4984 4 11 4C7.13401 4 4 7.13401 4 11C4 11.2338 4.01146 11.4648 4.03359 11.692C1.78523 12.0623 0 14.072 0 16.5C0 19.5376 2.46243 22 5.5 22H17.5C19.9853 22 22 19.9853 22 17.5C22 15.0147 19.9853 13 17.5 13H5.5C3.567 13 2 14.567 2 16.5C2 18.433 3.567 20 5.5 20H17.5C18.8807 20 20 18.8807 20 17.5C20 16.1193 18.8807 15 17.5 15C16.8906 15 16.3268 15.2269 15.8953 15.602C15.6599 15.8066 15.3402 15.8924 15.0305 15.8341C14.7208 15.7758 14.4608 15.5815 14.3262 15.3082C13.6841 14.0041 12.4336 13 11 13C8.79086 13 7 14.7909 7 17C7 17.5523 6.55228 18 6 18C5.44772 18 5 17.5523 5 17C5 13.6863 7.68629 11 11 11C12.7846 11 14.3853 11.7801 15.4682 13.0116C15.6888 10.7416 17.5925 9 19.9 9C22.7168 9 25 11.2832 25 14.1C25 16.9168 22.7168 19 19.9 19H17.5Z"/></svg>
             <svg class="cloud-moving cloud-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 19C19.9853 19 22 16.9853 22 14.5C22 12.1325 20.176 10.2016 17.8596 10.011C17.4042 6.61868 14.4984 4 11 4C7.13401 4 4 7.13401 4 11C4 11.2338 4.01146 11.4648 4.03359 11.692C1.78523 12.0623 0 14.072 0 16.5C0 19.5376 2.46243 22 5.5 22H17.5C19.9853 22 22 19.9853 22 17.5C22 15.0147 19.9853 13 17.5 13H5.5C3.567 13 2 14.567 2 16.5C2 18.433 3.567 20 5.5 20H17.5C18.8807 20 20 18.8807 20 17.5C20 16.1193 18.8807 15 17.5 15C16.8906 15 16.3268 15.2269 15.8953 15.602C15.6599 15.8066 15.3402 15.8924 15.0305 15.8341C14.7208 15.7758 14.4608 15.5815 14.3262 15.3082C13.6841 14.0041 12.4336 13 11 13C8.79086 13 7 14.7909 7 17C7 17.5523 6.55228 18 6 18C5.44772 18 5 17.5523 5 17C5 13.6863 7.68629 11 11 11C12.7846 11 14.3853 11.7801 15.4682 13.0116C15.6888 10.7416 17.5925 9 19.9 9C22.7168 9 25 11.2832 25 14.1C25 16.9168 22.7168 19 19.9 19H17.5Z"/></svg>
             <svg class="cloud-moving cloud-3" fill="currentColor" viewBox="0 0 24 24"><path d="M17.5 19C19.9853 19 22 16.9853 22 14.5C22 12.1325 20.176 10.2016 17.8596 10.011C17.4042 6.61868 14.4984 4 11 4C7.13401 4 4 7.13401 4 11C4 11.2338 4.01146 11.4648 4.03359 11.692C1.78523 12.0623 0 14.072 0 16.5C0 19.5376 2.46243 22 5.5 22H17.5C19.9853 22 22 19.9853 22 17.5C22 15.0147 19.9853 13 17.5 13H5.5C3.567 13 2 14.567 2 16.5C2 18.433 3.567 20 5.5 20H17.5C18.8807 20 20 18.8807 20 17.5C20 16.1193 18.8807 15 17.5 15C16.8906 15 16.3268 15.2269 15.8953 15.602C15.6599 15.8066 15.3402 15.8924 15.0305 15.8341C14.7208 15.7758 14.4608 15.5815 14.3262 15.3082C13.6841 14.0041 12.4336 13 11 13C8.79086 13 7 14.7909 7 17C7 17.5523 6.55228 18 6 18C5.44772 18 5 17.5523 5 17C5 13.6863 7.68629 11 11 11C12.7846 11 14.3853 11.7801 15.4682 13.0116C15.6888 10.7416 17.5925 9 19.9 9C22.7168 9 25 11.2832 25 14.1C25 16.9168 22.7168 19 19.9 19H17.5Z"/></svg>
         </div>
 
-        <div class="cover-inner">
-            <p class="cover-subtitle">You are cordially invited</p>
-            <h1 class="font-script cover-title text-shadow-soft">Krythium</h1>
-            
-            <!-- Label triggers checkbox for CSS fallback AND calls JS openInvitation -->
-            <label for="invite-toggle" id="open-invite-btn" class="pulse-btn" role="button" tabindex="0" onclick="if(window.openInvitation) window.openInvitation();">
-                Tap to Open
-            </label>
+        <div class="relative z-10 flex flex-col items-center w-full max-w-lg mx-auto">
+            <p class="uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[11px] sm:text-sm text-white font-extrabold mb-2 drop-shadow-md">
+                Join Us With Family
+            </p>
+
+            <p class="uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs text-white/90 font-medium mb-1">
+                To Celebrate
+            </p>
+
+            <!-- Krythium Title -->
+            <h1 class="font-script text-6xl sm:text-8xl md:text-[9.5rem] title-shimmer text-shadow-soft leading-tight sm:leading-none my-1">
+                Krythium
+            </h1>
+
+            <p class="uppercase tracking-[0.18em] sm:tracking-[0.25em] text-xs sm:text-xl text-[#EDC015] font-bold mb-6 sm:mb-8 drop-shadow-md">
+                21st Anniversary Celebration
+            </p>
+
+            <p class="text-white font-medium text-xs sm:text-base tracking-wide mb-8 sm:mb-10 drop-shadow-sm">
+                Sunday, November 01, 2026 &bull; 5:00 PM
+            </p>
+
+            <button id="open-invite-btn" class="cursor-pointer bg-[#EDC015] active:bg-white hover:bg-white text-gray-900 font-bold py-3 px-8 sm:py-3.5 sm:px-10 rounded-full uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 shadow-xl min-h-[44px] flex items-center justify-center">
+                View Invitation
+            </button>
         </div>
     </div>
     
     <!-- MAIN INVITATION CONTENT -->
-    <main id="main-content">
+    <main id="main-content" class="relative z-10 hidden flex flex-col items-center w-full">
         
-        <div id="particles-container" class="cloud-container" style="position: fixed;"></div>
-        
-        <div class="bottom-border-decor">
-            <span class="flower-lg">🌻</span>
-            <span class="cloud-sm">☁️</span>
-            <span class="flower-xl">🌻</span>
-            <span class="flower-md">🌻</span>
-            <span class="cloud-sm">☁️</span>
-            <span class="flower-lg">🌻</span>
+        <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+        <!-- Bottom Sunflower Accents -->
+        <div class="fixed bottom-0 left-0 w-full h-20 sm:h-32 pointer-events-none z-0 flex items-end justify-between px-2 md:px-10 opacity-90 overflow-hidden">
+            <span class="text-4xl sm:text-7xl -mb-3 sm:-mb-4">🌻</span>
+            <span class="text-3xl sm:text-5xl -mb-1 sm:-mb-2">☁️</span>
+            <span class="text-5xl sm:text-8xl -mb-5 sm:-mb-6 transform -scale-x-100">🌻</span>
+            <span class="text-3xl sm:text-6xl -mb-1 sm:-mb-2">🌻</span>
+            <span class="text-4xl sm:text-7xl -mb-3 sm:-mb-4">🌻</span>
         </div>
 
-        <!-- Hero Section -->
-        <section class="section-hero">
-            <h1 class="font-script hero-title text-shadow-soft reveal">Krythium Anniversary 2026</h1>
+        <!-- HERO SECTION -->
+        <section class="min-h-[100vh] min-h-[100dvh] flex flex-col items-center justify-center p-4 sm:p-6 text-center relative pt-12 sm:pt-16 w-full z-10">
+            <p class="uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[11px] sm:text-sm text-white font-extrabold mb-1 reveal drop-shadow-md">
+                Join Us With Family
+            </p>
+
+            <p class="uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs text-white/90 font-medium mb-1 reveal">
+                To Celebrate
+            </p>
+
+            <h1 class="font-script text-6xl sm:text-8xl md:text-[9.5rem] title-shimmer text-shadow-soft leading-tight sm:leading-none my-1 reveal">
+                Krythium
+            </h1>
+
+            <p class="uppercase tracking-[0.18em] sm:tracking-[0.25em] text-xs sm:text-xl text-[#EDC015] font-bold mb-6 reveal drop-shadow-md">
+                21st Anniversary Celebration
+            </p>
             
-            <div class="glass-panel hero-card reveal" style="transition-delay: 150ms;">
-                <p class="hero-text">
-                    Join us under the bright sky as we celebrate a joyous journey of growth, friendship, and blooming success. Let's make memories that shine as bright as a field of sunflowers!
+            <div class="glass-panel rounded-2xl p-5 sm:p-8 max-w-xl mx-auto reveal mt-1 w-full">
+                <p class="text-sm sm:text-lg leading-relaxed text-gray-800 font-medium">
+                    We request the pleasure of your company as we gather under the bright sky to celebrate 21 remarkable years of growth, togetherness, and cherished milestones.
                 </p>
             </div>
             
-            <div class="hero-arrow-wrap bounce-arrow reveal" style="transition-delay: 300ms;">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="36" height="36">
+            <div class="absolute bottom-8 sm:bottom-10 bounce-arrow text-white reveal" style="transition-delay: 600ms;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 sm:w-8 sm:h-8 drop-shadow">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 5.25h-15m15 6h-15m10.5 6L12 21m0 0l-3.75-3.75M12 21V11.25" />
                 </svg>
             </div>
         </section>
 
-        <!-- Save The Date Section -->
-        <section class="section-standard">
-            <div class="glass-panel date-card reveal">
-                <span class="corner-flower cf-tl">🌻</span>
-                <span class="corner-flower cf-tr">🌻</span>
-                <span class="corner-flower cf-bl">🌻</span>
-                <span class="corner-flower cf-br">🌻</span>
-                
-                <p class="eyebrow">Save the Date</p>
-                <h2 class="font-script date-highlight">November 1st</h2>
-                <h3 class="year-highlight">2026</h3>
+        <!-- DATE & TIME SECTION -->
+        <section class="py-12 sm:py-16 px-4 flex flex-col items-center text-center w-full z-10 relative">
+            <div class="glass-panel p-6 sm:p-12 rounded-3xl relative shadow-xl reveal max-w-2xl w-full border-white/50 overflow-hidden">
+                <span class="absolute top-2 left-2 sm:top-4 sm:left-4 text-xl sm:text-4xl opacity-80">🌻</span>
+                <span class="absolute top-2 right-2 sm:top-4 sm:right-4 text-xl sm:text-4xl opacity-80">🌻</span>
+                <span class="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 text-xl sm:text-4xl opacity-80">🌻</span>
+                <span class="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 text-xl sm:text-4xl opacity-80">🌻</span>
+
+                <p class="text-[11px] sm:text-sm uppercase tracking-widest text-gray-700 font-extrabold mb-2 sm:mb-3">Reserve the Evening</p>
+                <h2 class="font-script text-3xl sm:text-6xl text-[#BB660B] font-bold mb-1 sm:mb-2 reveal" style="transition-delay: 200ms;">Sunday, November 1st</h2>
+                <h3 class="text-lg sm:text-3xl font-bold text-gray-800 reveal" style="transition-delay: 300ms;">2026 &bull; 5:00 PM</h3>
             </div>
         </section>
 
-        <!-- Program & Dress Code Section -->
-        <section class="two-col-section">
-            <div class="glass-panel info-card reveal">
-                <div class="watermark-emoji-tr">⏰</div>
-                <h2 class="font-script section-heading text-shadow-soft" style="text-align: center;">Program</h2>
-                
-                <div class="timeline-list">
-                    <div class="timeline-item">
-                        <div class="time-badge">6:00 PM</div>
+        <!-- EVENING PROGRAM SECTION -->
+        <section class="py-10 sm:py-12 px-4 sm:px-6 flex flex-col items-center justify-center w-full max-w-4xl z-10">
+            <div class="glass-panel p-5 sm:p-10 rounded-3xl w-full shadow-lg reveal border-white/50">
+                <p class="text-[11px] sm:text-sm uppercase tracking-widest text-gray-700 font-extrabold mb-1 sm:mb-2 text-center">Evening Schedule</p>
+                <h2 class="font-script text-3xl sm:text-5xl text-gray-900 font-bold mb-6 sm:mb-8 text-center">The Celebration Program</h2>
+
+                <div class="space-y-4 sm:space-y-6 max-w-xl mx-auto">
+                    <div class="flex items-start gap-3 sm:gap-4 p-3 rounded-2xl bg-white/30 border border-white/50">
+                        <span class="bg-[#EDC015] text-gray-900 font-extrabold text-[11px] sm:text-sm px-2.5 py-1 rounded-full shadow shrink-0">5:00 PM</span>
                         <div>
-                            <h4 class="timeline-title">Welcome Drinks</h4>
-                            <p class="timeline-desc">Mingle and watch the sunset.</p>
+                            <h4 class="font-bold text-gray-900 text-sm sm:text-lg">Welcome Drinks & Gathering</h4>
+                            <p class="text-xs sm:text-sm text-gray-800">Arrival, welcome refreshments, and evening mingling.</p>
                         </div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time-badge">7:00 PM</div>
+
+                    <div class="flex items-start gap-3 sm:gap-4 p-3 rounded-2xl bg-white/30 border border-white/50">
+                        <span class="bg-[#EDC015] text-gray-900 font-extrabold text-[11px] sm:text-sm px-2.5 py-1 rounded-full shadow shrink-0">6:00 PM</span>
                         <div>
-                            <h4 class="timeline-title">Dinner &amp; Toasts</h4>
-                            <p class="timeline-desc">A grand feast celebrating our milestones.</p>
+                            <h4 class="font-bold text-gray-900 text-sm sm:text-lg">21st Milestone Speeches & Toasts</h4>
+                            <p class="text-xs sm:text-sm text-gray-800">Reflecting on 21 years of growth, dedication, and memories.</p>
                         </div>
                     </div>
-                    <div class="timeline-item">
-                        <div class="time-badge">8:30 PM</div>
+
+                    <div class="flex items-start gap-3 sm:gap-4 p-3 rounded-2xl bg-white/30 border border-white/50">
+                        <span class="bg-[#EDC015] text-gray-900 font-extrabold text-[11px] sm:text-sm px-2.5 py-1 rounded-full shadow shrink-0">7:30 PM</span>
                         <div>
-                            <h4 class="timeline-title">Music &amp; Dancing</h4>
-                            <p class="timeline-desc">Let the joy bloom on the dance floor!</p>
+                            <h4 class="font-bold text-gray-900 text-sm sm:text-lg">Grand Feast & Music</h4>
+                            <p class="text-xs sm:text-sm text-gray-800">Dinner, live entertainment, and dancing.</p>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="glass-panel info-card reveal" style="transition-delay: 150ms; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-                <div class="watermark-emoji-bl">👗</div>
-                <h2 class="font-script section-heading text-shadow-soft">Dress Code</h2>
-                <div style="font-size: 3.5rem; margin-bottom: 0.75rem; position: relative; z-index: 10;">👒</div>
-                <h3 style="font-size: 1.2rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; position: relative; z-index: 10;">Smart Casual</h3>
-                <p style="font-size: 0.95rem; color: #374151; max-width: 20rem; line-height: 1.5; position: relative; z-index: 10;">
-                    Wear your comfortable best, with a <strong style="color: #d48c00;">splash of Sunflower Yellow</strong> or bright sky blue!
-                </p>
+        <!-- DRESS CODE & COLOR PALETTE SECTION -->
+        <section class="py-10 sm:py-12 px-4 sm:px-6 flex flex-col items-center justify-center w-full max-w-4xl z-10">
+            <div class="glass-panel p-5 sm:p-10 rounded-3xl w-full shadow-lg reveal border-white/50 text-center">
+                <p class="text-[11px] sm:text-sm uppercase tracking-widest text-gray-700 font-extrabold mb-1 sm:mb-2">Our Colour Palette</p>
+                <h2 class="font-script text-3xl sm:text-5xl text-gray-900 font-bold mb-1 sm:mb-2">Wear The Vibe</h2>
+                <p class="text-xs sm:text-sm text-gray-700 mb-6 sm:mb-8 italic font-medium">Come dressed in the Kerala vibe with your own modern twist.</p>
+
+                <!-- Color Swatches Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 max-w-3xl mx-auto">
+                    <div class="flex flex-col items-center p-2 rounded-2xl bg-white/20 sm:bg-transparent">
+                        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full shadow-md border-2 border-white/60 mb-2" style="background-color: #EDC015;"></div>
+                        <span class="text-[11px] sm:text-xs font-bold text-gray-900 uppercase">Sunflower Yellow</span>
+                        <span class="text-[9px] sm:text-[10px] text-gray-700">#EDC015</span>
+                    </div>
+
+                    <div class="flex flex-col items-center p-2 rounded-2xl bg-white/20 sm:bg-transparent">
+                        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full shadow-md border-2 border-white/60 mb-2" style="background-color: #BB660B;"></div>
+                        <span class="text-[11px] sm:text-xs font-bold text-gray-900 uppercase">Golden Brown</span>
+                        <span class="text-[9px] sm:text-[10px] text-gray-700">#BB660B</span>
+                    </div>
+
+                    <div class="flex flex-col items-center p-2 rounded-2xl bg-white/20 sm:bg-transparent">
+                        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full shadow-md border-2 border-white/60 mb-2" style="background-color: #F8F1DC;"></div>
+                        <span class="text-[11px] sm:text-xs font-bold text-gray-900 uppercase">Ivory</span>
+                        <span class="text-[9px] sm:text-[10px] text-gray-700">#F8F1DC</span>
+                    </div>
+
+                    <div class="flex flex-col items-center p-2 rounded-2xl bg-white/20 sm:bg-transparent">
+                        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full shadow-md border-2 border-white/60 mb-2" style="background-color: #7C8C2E;"></div>
+                        <span class="text-[11px] sm:text-xs font-bold text-gray-900 uppercase">Sage Green</span>
+                        <span class="text-[9px] sm:text-[10px] text-gray-700">#7C8C2E</span>
+                    </div>
+
+                    <div class="flex flex-col items-center col-span-2 sm:col-span-1 p-2 rounded-2xl bg-white/20 sm:bg-transparent">
+                        <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full shadow-md border-2 border-white/60 mb-2" style="background-color: #41532C;"></div>
+                        <span class="text-[11px] sm:text-xs font-bold text-gray-900 uppercase">Forest Green</span>
+                        <span class="text-[9px] sm:text-[10px] text-gray-700">#41532C</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Countdown Section -->
-        <section class="section-standard">
-            <h2 class="font-script section-heading text-shadow-soft reveal">The Countdown Begins</h2>
+        <!-- COUNTDOWN SECTION -->
+        <section class="py-10 sm:py-12 px-4 sm:px-6 flex flex-col items-center text-center w-full z-10">
+            <h2 class="font-script text-3xl sm:text-5xl text-white text-shadow-soft font-bold mb-5 sm:mb-6 reveal">The Countdown Begins</h2>
             
-            <div class="countdown-grid">
-                <div class="glass-panel cd-box reveal" style="transition-delay: 50ms;">
-                    <span id="cd-days" class="cd-number">15</span>
-                    <span class="cd-label">Days</span>
+            <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-2xl mx-auto w-full">
+                <div class="glass-panel p-2.5 sm:p-6 rounded-2xl flex flex-col items-center justify-center reveal shadow-md" style="transition-delay: 100ms;">
+                    <span id="cd-days" class="text-xl sm:text-4xl text-gray-900 font-bold mb-0.5 sm:mb-1">00</span>
+                    <span class="text-[9px] sm:text-xs uppercase font-extrabold text-gray-700">Days</span>
                 </div>
-                <div class="glass-panel cd-box reveal" style="transition-delay: 100ms;">
-                    <span id="cd-hours" class="cd-number">00</span>
-                    <span class="cd-label">Hours</span>
+                <div class="glass-panel p-2.5 sm:p-6 rounded-2xl flex flex-col items-center justify-center reveal shadow-md" style="transition-delay: 200ms;">
+                    <span id="cd-hours" class="text-xl sm:text-4xl text-gray-900 font-bold mb-0.5 sm:mb-1">00</span>
+                    <span class="text-[9px] sm:text-xs uppercase font-extrabold text-gray-700">Hours</span>
                 </div>
-                <div class="glass-panel cd-box reveal" style="transition-delay: 150ms;">
-                    <span id="cd-mins" class="cd-number">00</span>
-                    <span class="cd-label">Mins</span>
+                <div class="glass-panel p-2.5 sm:p-6 rounded-2xl flex flex-col items-center justify-center reveal shadow-md" style="transition-delay: 300ms;">
+                    <span id="cd-mins" class="text-xl sm:text-4xl text-gray-900 font-bold mb-0.5 sm:mb-1">00</span>
+                    <span class="text-[9px] sm:text-xs uppercase font-extrabold text-gray-700">Mins</span>
                 </div>
-                <div class="glass-panel cd-box reveal" style="transition-delay: 200ms;">
-                    <span id="cd-secs" class="cd-number cd-number-accent">00</span>
-                    <span class="cd-label">Secs</span>
+                <div class="glass-panel p-2.5 sm:p-6 rounded-2xl flex flex-col items-center justify-center reveal shadow-md" style="transition-delay: 400ms;">
+                    <span id="cd-secs" class="text-xl sm:text-4xl text-[#BB660B] font-bold mb-0.5 sm:mb-1">00</span>
+                    <span class="text-[9px] sm:text-xs uppercase font-extrabold text-gray-700">Secs</span>
                 </div>
             </div>
         </section>
 
-        <!-- Venue Section -->
-        <section class="section-standard">
-            <div class="glass-panel venue-card reveal">
-                <div style="margin-bottom: 0.75rem; color: #d48c00; display: flex; justify-content: center;">
-                    <svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <!-- VENUE SECTION -->
+        <section class="py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center text-center w-full z-10 relative">
+            <div class="glass-panel p-5 sm:p-10 rounded-3xl max-w-2xl w-full border-white/50 shadow-xl reveal">
+                <div class="mb-2 sm:mb-3 text-[#BB660B] flex justify-center reveal">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-sm sm:w-10 sm:h-10">
                         <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" />
                     </svg>
                 </div>
                 
-                <h2 class="font-script" style="font-size: 2.75rem; color: #111827; margin-bottom: 0.5rem;">Chacolas Pavilion</h2>
+                <h2 class="font-script text-3xl sm:text-5xl text-gray-900 font-bold mb-1 reveal">Galleria</h2>
+                <h3 class="text-base sm:text-xl text-gray-800 font-semibold mb-5 sm:mb-6 reveal">Chakolas Pavilion, Kalamassery</h3>
                 
-                <div class="venue-divider">
-                    <div class="venue-line"></div>
-                    <span class="eyebrow" style="margin-bottom: 0;">The Grand Venue</span>
-                    <div class="venue-line"></div>
-                </div>
-                
-                <p style="font-size: 0.95rem; color: #374151; font-weight: 500; max-width: 28rem; margin: 0 auto 1.75rem; line-height: 1.6;">
-                    Join us amidst the bright, airy spaces of the Pavilion. A perfect setting to share warm smiles and build new memories.
-                </p>
-                
-                <a href="https://maps.google.com/?q=Chacolas+Pavilion" target="_blank" rel="noopener noreferrer" class="map-btn">
-                    Open Map
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <a href="https://maps.google.com/?q=Chakolas+Pavilion+Kalamassery" target="_blank" rel="noopener noreferrer" class="cursor-pointer reveal inline-flex items-center justify-center gap-2 bg-[#EDC015] active:bg-white hover:bg-white text-gray-900 font-bold py-3 px-7 rounded-full uppercase tracking-widest text-xs sm:text-sm transition-all duration-300 shadow-md min-h-[44px]">
+                    Open Location Map
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2026 Krythium. Celebrating with Joy.</p>
+        <!-- TEAM PHOTO SECTION -->
+        <section class="py-10 sm:py-12 px-3 sm:px-6 flex flex-col items-center text-center w-full z-10 relative">
+            <div class="glass-panel p-3.5 sm:p-6 rounded-3xl max-w-4xl w-full border-white/50 shadow-xl reveal">
+                <p class="text-[11px] sm:text-sm uppercase tracking-widest text-gray-700 font-extrabold mb-3">Our Journey Together</p>
+                <div class="rounded-2xl overflow-hidden shadow-md border border-white/60">
+                    <img src="MON04631.jpg" alt="Krythium Team Celebration" class="w-full h-auto object-cover">
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="py-8 text-center text-white/80 text-[10px] sm:text-xs uppercase tracking-widest font-extrabold w-full z-10 pb-28">
+            <p>&copy; 2026 Krythium. Celebrating 21 Years of Togetherness.</p>
         </footer>
     </main>
 
     <script>
-        (function() {
-            var isOpen = false;
-            var btnOpen = document.getElementById('open-invite-btn');
-            var inviteCheckbox = document.getElementById('invite-toggle');
-            var envelopeCover = document.getElementById('envelope-cover');
-            var mainContent = document.getElementById('main-content');
-            var audio = document.getElementById('bg-music');
-            var audioToggle = document.getElementById('audio-toggle');
-            var iconMuted = document.getElementById('icon-muted');
-            var iconUnmuted = document.getElementById('icon-unmuted');
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnOpen = document.getElementById('open-invite-btn');
+            const envelopeCover = document.getElementById('envelope-cover');
+            const mainContent = document.getElementById('main-content');
+            const audio = document.getElementById('bg-music');
+            const audioToggle = document.getElementById('audio-toggle');
+            const iconMuted = document.getElementById('icon-muted');
+            const iconUnmuted = document.getElementById('icon-unmuted');
+            
+            audio.volume = 0.4;
 
-            if (audio) {
-                try { audio.volume = 0.4; } catch (e) {}
-            }
+            btnOpen.addEventListener('click', () => {
+                envelopeCover.classList.add('cover-hidden');
+                mainContent.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    envelopeCover.style.display = 'none';
+                    initIntersectionObserver();
+                    startFloatingParticles(); 
+                }, 1000);
 
-            function activateElement(el) {
-                if (!el) return;
-                if (el.className.indexOf('active') === -1) {
-                    el.className += ' active';
-                }
-                var children = el.querySelectorAll('.reveal');
-                for (var i = 0; i < children.length; i++) {
-                    if (children[i].className.indexOf('active') === -1) {
-                        children[i].className += ' active';
-                    }
-                }
-            }
-
-            function checkAndRevealElements() {
-                var reveals = document.querySelectorAll('.reveal');
-                var windowHeight = window.innerHeight || document.documentElement.clientHeight || 800;
-                for (var i = 0; i < reveals.length; i++) {
-                    var el = reveals[i];
-                    if (el.className.indexOf('active') !== -1) continue;
-                    var rect = el.getBoundingClientRect();
-                    if (rect.top <= windowHeight - 30 && rect.bottom >= -50) {
-                        activateElement(el);
-                    }
-                }
-            }
-
-            function initReveals() {
-                checkAndRevealElements();
-                window.addEventListener('scroll', checkAndRevealElements, { passive: true });
-                window.addEventListener('touchmove', checkAndRevealElements, { passive: true });
-                window.addEventListener('resize', checkAndRevealElements, { passive: true });
-
-                // Fallback timer for iOS WebViews where scroll events may be throttled
-                setTimeout(checkAndRevealElements, 300);
-                setTimeout(checkAndRevealElements, 900);
-            }
-
-            function startFloatingParticles() {
-                var container = document.getElementById('particles-container');
-                if (!container) return;
-                var particles = ['☁️', '✨', '🌼', '🎈'];
-
-                function createParticle() {
-                    var el = document.createElement('div');
-                    el.className = 'particle';
-                    el.innerText = particles[Math.floor(Math.random() * particles.length)];
-                    el.style.left = (Math.random() * 90 + 3) + '%';
-                    el.style.fontSize = (Math.random() * 1.3 + 0.6) + 'rem';
-                    var duration = Math.random() * 10 + 10;
-                    el.style.animationDuration = duration + 's';
-                    container.appendChild(el);
-                    setTimeout(function() {
-                        if (el && el.parentNode) el.parentNode.removeChild(el);
-                    }, duration * 1000);
-                }
-
-                setInterval(createParticle, 900);
-                for (var i = 0; i < 8; i++) {
-                    setTimeout(createParticle, i * 250);
-                }
-            }
-
-            window.openInvitation = function() {
-                if (isOpen) return;
-                isOpen = true;
-
-                if (inviteCheckbox) inviteCheckbox.checked = true;
-                document.body.className += ' is-open';
-
-                if (mainContent) {
-                    mainContent.style.display = 'flex';
-                }
-
-                // Play audio inside direct user interaction thread for iOS Safari
-                if (audio) {
-                    try {
-                        var playPromise = audio.play();
-                        if (playPromise !== undefined && playPromise.then) {
-                            playPromise.then(function() {
-                                if (audioToggle) audioToggle.className += ' visible';
-                                if (iconMuted) iconMuted.className = 'hidden';
-                                if (iconUnmuted) iconUnmuted.className = '';
-                            }).catch(function() {
-                                if (audioToggle) audioToggle.className += ' visible';
-                                if (iconMuted) iconMuted.className = '';
-                                if (iconUnmuted) iconUnmuted.className = 'hidden';
-                            });
-                        } else {
-                            if (audioToggle) audioToggle.className += ' visible';
-                        }
-                    } catch (err) {
-                        if (audioToggle) audioToggle.className += ' visible';
-                    }
-                }
-
-                setTimeout(function() {
-                    if (envelopeCover) {
-                        envelopeCover.style.display = 'none';
-                    }
-                }, 900);
-
-                // Double RAF ensures iOS Safari finishes layout recalculation after display:flex
-                if (window.requestAnimationFrame) {
-                    requestAnimationFrame(function() {
-                        requestAnimationFrame(function() {
-                            initReveals();
-                            startFloatingParticles();
-                        });
+                let playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        audioToggle.classList.remove('opacity-0');
+                        iconMuted.classList.add('hidden');
+                        iconUnmuted.classList.remove('hidden');
+                    }).catch((error) => {
+                        console.log('Audio autoplay prevented.', error);
+                        audioToggle.classList.remove('opacity-0');
                     });
-                } else {
-                    setTimeout(function() {
-                        initReveals();
-                        startFloatingParticles();
-                    }, 50);
                 }
-            };
+            });
 
-            if (btnOpen) {
-                btnOpen.addEventListener('click', window.openInvitation, false);
-                btnOpen.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    window.openInvitation();
-                }, false);
-            }
+            audioToggle.addEventListener('click', () => {
+                if (audio.paused || audio.muted) {
+                    audio.muted = false;
+                    audio.play();
+                    iconMuted.classList.add('hidden');
+                    iconUnmuted.classList.remove('hidden');
+                } else {
+                    audio.pause();
+                    iconUnmuted.classList.add('hidden');
+                    iconMuted.classList.remove('hidden');
+                }
+            });
 
-            if (inviteCheckbox) {
-                inviteCheckbox.addEventListener('change', function() {
-                    if (inviteCheckbox.checked) window.openInvitation();
-                });
-            }
+            function initIntersectionObserver() {
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.1
+                };
 
-            if (audioToggle) {
-                audioToggle.addEventListener('click', function() {
-                    if (!audio) return;
-                    try {
-                        if (audio.paused || audio.muted) {
-                            audio.muted = false;
-                            var p = audio.play();
-                            if (p && p.then) {
-                                p.then(function() {
-                                    if (iconMuted) iconMuted.className = 'hidden';
-                                    if (iconUnmuted) iconUnmuted.className = '';
-                                }).catch(function() {});
-                            }
-                        } else {
-                            audio.pause();
-                            if (iconUnmuted) iconUnmuted.className = 'hidden';
-                            if (iconMuted) iconMuted.className = '';
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('active');
+                            observer.unobserve(entry.target); 
                         }
-                    } catch (e) {}
+                    });
+                }, observerOptions);
+
+                document.querySelectorAll('.reveal').forEach((el) => {
+                    observer.observe(el);
                 });
             }
 
-            // Countdown Timer (iOS-safe numeric constructor: Nov 1, 2026 18:00:00)
-            var targetDate = new Date(2026, 10, 1, 18, 0, 0).getTime();
-
-            function pad2(n) {
-                return n < 10 ? '0' + n : '' + n;
-            }
-
+            const targetDate = new Date("November 1, 2026 17:00:00").getTime();
+            
             function updateCountdown() {
-                var now = new Date().getTime();
-                var distance = targetDate - now;
+                const now = new Date().getTime();
+                const distance = targetDate - now;
 
-                var elDays = document.getElementById('cd-days');
-                var elHours = document.getElementById('cd-hours');
-                var elMins = document.getElementById('cd-mins');
-                var elSecs = document.getElementById('cd-secs');
-
-                if (isNaN(distance) || distance < 0) {
-                    if (elDays) elDays.innerText = '00';
-                    if (elHours) elHours.innerText = '00';
-                    if (elMins) elMins.innerText = '00';
-                    if (elSecs) elSecs.innerText = '00';
+                if (distance < 0) {
+                    document.getElementById("cd-days").innerText = "00";
+                    document.getElementById("cd-hours").innerText = "00";
+                    document.getElementById("cd-mins").innerText = "00";
+                    document.getElementById("cd-secs").innerText = "00";
                     return;
                 }
 
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                if (elDays) elDays.innerText = pad2(days);
-                if (elHours) elHours.innerText = pad2(hours);
-                if (elMins) elMins.innerText = pad2(minutes);
-                if (elSecs) elSecs.innerText = pad2(seconds);
+                document.getElementById("cd-days").innerText = days.toString().padStart(2, '0');
+                document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("cd-mins").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("cd-secs").innerText = seconds.toString().padStart(2, '0');
             }
-
-            updateCountdown();
+            
             setInterval(updateCountdown, 1000);
-        })();
+            updateCountdown(); 
+
+            function startFloatingParticles() {
+                const container = document.getElementById('particles-container');
+                const particles = ['☁️', '✨', '🌻']; 
+                
+                function createParticle() {
+                    const el = document.createElement('div');
+                    el.classList.add('particle');
+                    el.innerText = particles[Math.floor(Math.random() * particles.length)];
+                    el.style.left = Math.random() * 100 + 'vw';
+                    
+                    const size = Math.random() * 1.2 + 0.5;
+                    el.style.fontSize = size + 'rem';
+                    
+                    const duration = Math.random() * 10 + 10;
+                    el.style.animationDuration = duration + 's';
+                    
+                    container.appendChild(el);
+                    setTimeout(() => {
+                        el.remove();
+                    }, duration * 1000);
+                }
+                
+                setInterval(createParticle, 800);
+                for(let i=0; i<6; i++) {
+                    setTimeout(createParticle, i * 200);
+                }
+            }
+        });
     </script>
 </body>
 </html>
