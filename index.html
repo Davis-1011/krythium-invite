@@ -2,7 +2,7 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>21st Anniversary Celebration of Krythium</title>
     
     <!-- Open Graph tags for WhatsApp & Social Sharing -->
@@ -20,6 +20,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         :root {
             --color-sky-top: #4db8ff;
             --color-sky-bottom: #99d6ff;
@@ -30,19 +35,41 @@
             --forest-green: #41532C;
         }
 
+        html {
+            -webkit-text-size-adjust: 100%;
+            height: 100%;
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%);
-            background-attachment: fixed;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             color: #333333;
             overflow-x: hidden;
+            width: 100%;
             min-height: 100vh;
-            min-height: 100dvh; 
-            -webkit-tap-highlight-color: transparent;
+            min-height: -webkit-fill-available;
+            position: relative;
+            background-color: var(--color-sky-top);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Fixed background layer for iOS Safari */
+        .fixed-sky-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%);
+            z-index: 0;
+            pointer-events: none;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
         .font-script {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Dancing Script', 'Apple Chancery', 'Snell Roundhand', cursive;
         }
 
         .text-shadow-soft {
@@ -70,23 +97,71 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
         }
 
-        #envelope-cover {
-            transition: opacity 1s ease-in-out, visibility 1s;
+        /* PURE CSS GATE TOGGLE (iOS Safari and WebView fallback) */
+        #invite-toggle {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
         }
-        .cover-hidden {
+
+        #envelope-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 40;
+            transition: opacity 0.85s ease-in-out, visibility 0.85s ease-in-out;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        #main-content {
+            position: relative;
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        #invite-toggle:checked ~ #envelope-cover,
+        body.is-open #envelope-cover {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
+        #invite-toggle:checked ~ #main-content,
+        body.is-open #main-content {
+            display: flex !important;
+        }
+
+        #invite-toggle:checked ~ #main-content .reveal {
+            animation: cssRevealFallback 0.8s ease-out 0.3s forwards;
+        }
+        @keyframes cssRevealFallback {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                -webkit-transform: translateY(0);
+            }
+        }
+
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            -webkit-transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out, -webkit-transform 0.8s ease-out;
         }
         .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            -webkit-transform: translateY(0) !important;
         }
 
         .particle {
@@ -94,27 +169,29 @@
             pointer-events: none;
             z-index: 0;
             animation: float-up linear infinite;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
         @keyframes float-up {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            0% { -webkit-transform: translateY(100vh) rotate(0deg); transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 0.8; }
             90% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+            100% { -webkit-transform: translateY(-10vh) rotate(360deg); transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         .bounce-arrow {
             animation: bounce 2s infinite;
         }
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            0%, 20%, 50%, 80%, 100% { -webkit-transform: translateY(0); transform: translateY(0); }
+            40% { -webkit-transform: translateY(-10px); transform: translateY(-10px); }
+            60% { -webkit-transform: translateY(-5px); transform: translateY(-5px); }
         }
 
         /* Moving Clouds Animation */
         @keyframes drift {
-            from { transform: translateX(-150%); }
-            to { transform: translateX(150vw); }
+            from { -webkit-transform: translateX(-150%); transform: translateX(-150%); }
+            to { -webkit-transform: translateX(150vw); transform: translateX(150vw); }
         }
         .cloud-moving {
             position: absolute;
@@ -134,15 +211,31 @@
             .cloud-4 { width: 220px; }
         }
     </style>
+
+    <!-- Fallback if JS is disabled or strictly sandboxed -->
+    <noscript>
+        <style>
+            #envelope-cover { display: none !important; }
+            #main-content { display: flex !important; }
+            .reveal { opacity: 1 !important; transform: none !important; -webkit-transform: none !important; }
+            #audio-toggle { display: none !important; }
+        </style>
+    </noscript>
 </head>
 <body class="antialiased selection:bg-[#EDC015] selection:text-[#333]">
 
+    <!-- Pure CSS Checkbox State Fallback for opening -->
+    <input type="checkbox" id="invite-toggle" aria-hidden="true">
+
+    <!-- Fixed Sky Background Layer for iOS -->
+    <div class="fixed-sky-bg"></div>
+
     <!-- Background Audio -->
-    <audio id="bg-music" loop playsinline>
+    <audio id="bg-music" loop playsinline webkit-playsinline preload="auto">
         <source src="https://assets.mixkit.co/music/preview/mixkit-a-very-happy-christmas-897.mp3" type="audio/mpeg">
     </audio>
 
-    <button id="audio-toggle" class="cursor-pointer fixed top-4 right-4 z-50 w-11 h-11 rounded-full glass-panel text-gray-800 flex items-center justify-center opacity-0 transition-opacity duration-1000 active:scale-95 shadow-md" aria-label="Toggle Audio">
+    <button id="audio-toggle" class="cursor-pointer fixed top-4 right-4 z-50 w-11 h-11 rounded-full glass-panel text-gray-800 flex items-center justify-center opacity-0 transition-opacity duration-1000 active:scale-95 shadow-md" aria-label="Toggle Audio" type="button">
         <svg id="icon-unmuted" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256" class="hidden">
             <path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM144,207.64,83.91,160.89A8,8,0,0,0,79,160H32V96H79a8,8,0,0,0,4.91-.89L144,48.36ZM213.92,106.62a8,8,0,0,0-11.84,10.76,32,32,0,0,1,0,37.24,8,8,0,1,0,11.84,10.76,48,48,0,0,0,0-58.76ZM244,82a8,8,0,0,0-11.84,10.74,64,64,0,0,1,0,74.52A8,8,0,0,0,244,178,80,80,0,0,0,244,82Z"></path>
         </svg>
@@ -152,7 +245,7 @@
     </button>
 
     <!-- COVER PAGE -->
-    <div id="envelope-cover" class="fixed inset-0 z-40 bg-gradient-to-b from-[#4db8ff] to-[#99d6ff] flex flex-col items-center justify-center p-4 sm:p-6 text-center h-[100vh] h-[100dvh] overflow-hidden">
+    <div id="envelope-cover" class="bg-gradient-to-b from-[#4db8ff] to-[#99d6ff] flex flex-col items-center justify-center p-4 sm:p-6 text-center h-[100vh] h-[100dvh] overflow-hidden">
         
         <!-- Animated Sky Clouds -->
         <div class="absolute inset-0 z-0 pointer-events-none">
@@ -183,14 +276,14 @@
                 Sunday, November 01, 2026 &bull; 5:00 PM
             </p>
 
-            <button id="open-invite-btn" class="cursor-pointer bg-[#EDC015] active:bg-white hover:bg-white text-gray-900 font-bold py-3 px-8 sm:py-3.5 sm:px-10 rounded-full uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 shadow-xl min-h-[44px] flex items-center justify-center">
+            <label for="invite-toggle" id="open-invite-btn" role="button" tabindex="0" onclick="if(window.openInvitation) window.openInvitation();" class="cursor-pointer bg-[#EDC015] active:bg-white hover:bg-white text-gray-900 font-bold py-3 px-8 sm:py-3.5 sm:px-10 rounded-full uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 shadow-xl min-h-[44px] flex items-center justify-center select-none">
                 View Invitation
-            </button>
+            </label>
         </div>
     </div>
     
     <!-- MAIN INVITATION CONTENT -->
-    <main id="main-content" class="relative z-10 hidden flex flex-col items-center w-full">
+    <main id="main-content">
         
         <div id="particles-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
@@ -386,130 +479,212 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnOpen = document.getElementById('open-invite-btn');
-            const envelopeCover = document.getElementById('envelope-cover');
-            const mainContent = document.getElementById('main-content');
-            const audio = document.getElementById('bg-music');
-            const audioToggle = document.getElementById('audio-toggle');
-            const iconMuted = document.getElementById('icon-muted');
-            const iconUnmuted = document.getElementById('icon-unmuted');
-            
-            audio.volume = 0.4;
+        (function() {
+            var isOpen = false;
+            var btnOpen = document.getElementById('open-invite-btn');
+            var inviteCheckbox = document.getElementById('invite-toggle');
+            var envelopeCover = document.getElementById('envelope-cover');
+            var mainContent = document.getElementById('main-content');
+            var audio = document.getElementById('bg-music');
+            var audioToggle = document.getElementById('audio-toggle');
+            var iconMuted = document.getElementById('icon-muted');
+            var iconUnmuted = document.getElementById('icon-unmuted');
 
-            btnOpen.addEventListener('click', () => {
-                envelopeCover.classList.add('cover-hidden');
-                mainContent.classList.remove('hidden');
-                
-                setTimeout(() => {
-                    envelopeCover.style.display = 'none';
-                    initIntersectionObserver();
-                    startFloatingParticles(); 
-                }, 1000);
-
-                let playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        audioToggle.classList.remove('opacity-0');
-                        iconMuted.classList.add('hidden');
-                        iconUnmuted.classList.remove('hidden');
-                    }).catch((error) => {
-                        console.log('Audio autoplay prevented.', error);
-                        audioToggle.classList.remove('opacity-0');
-                    });
-                }
-            });
-
-            audioToggle.addEventListener('click', () => {
-                if (audio.paused || audio.muted) {
-                    audio.muted = false;
-                    audio.play();
-                    iconMuted.classList.add('hidden');
-                    iconUnmuted.classList.remove('hidden');
-                } else {
-                    audio.pause();
-                    iconUnmuted.classList.add('hidden');
-                    iconMuted.classList.remove('hidden');
-                }
-            });
-
-            function initIntersectionObserver() {
-                const observerOptions = {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.1
-                };
-
-                const observer = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
-                            observer.unobserve(entry.target); 
-                        }
-                    });
-                }, observerOptions);
-
-                document.querySelectorAll('.reveal').forEach((el) => {
-                    observer.observe(el);
-                });
+            if (audio) {
+                try { audio.volume = 0.4; } catch (e) {}
             }
 
-            const targetDate = new Date("November 1, 2026 17:00:00").getTime();
-            
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetDate - now;
-
-                if (distance < 0) {
-                    document.getElementById("cd-days").innerText = "00";
-                    document.getElementById("cd-hours").innerText = "00";
-                    document.getElementById("cd-mins").innerText = "00";
-                    document.getElementById("cd-secs").innerText = "00";
-                    return;
+            function activateElement(el) {
+                if (!el) return;
+                if (el.className.indexOf('active') === -1) {
+                    el.className += ' active';
                 }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                document.getElementById("cd-days").innerText = days.toString().padStart(2, '0');
-                document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
-                document.getElementById("cd-mins").innerText = minutes.toString().padStart(2, '0');
-                document.getElementById("cd-secs").innerText = seconds.toString().padStart(2, '0');
+                var children = el.querySelectorAll('.reveal');
+                for (var i = 0; i < children.length; i++) {
+                    if (children[i].className.indexOf('active') === -1) {
+                        children[i].className += ' active';
+                    }
+                }
             }
-            
-            setInterval(updateCountdown, 1000);
-            updateCountdown(); 
+
+            function checkAndRevealElements() {
+                var reveals = document.querySelectorAll('.reveal');
+                var windowHeight = window.innerHeight || document.documentElement.clientHeight || 800;
+                for (var i = 0; i < reveals.length; i++) {
+                    var el = reveals[i];
+                    if (el.className.indexOf('active') !== -1) continue;
+                    var rect = el.getBoundingClientRect();
+                    if (rect.top <= windowHeight - 30 && rect.bottom >= -50) {
+                        activateElement(el);
+                    }
+                }
+            }
+
+            function initReveals() {
+                checkAndRevealElements();
+                window.addEventListener('scroll', checkAndRevealElements, { passive: true });
+                window.addEventListener('touchmove', checkAndRevealElements, { passive: true });
+                window.addEventListener('resize', checkAndRevealElements, { passive: true });
+
+                // Multi-frame timeout for iOS Safari viewport adjustment
+                setTimeout(checkAndRevealElements, 300);
+                setTimeout(checkAndRevealElements, 900);
+            }
 
             function startFloatingParticles() {
-                const container = document.getElementById('particles-container');
-                const particles = ['☁️', '✨', '🌻']; 
-                
+                var container = document.getElementById('particles-container');
+                if (!container) return;
+                var particles = ['☁️', '✨', '🌻'];
+
                 function createParticle() {
-                    const el = document.createElement('div');
-                    el.classList.add('particle');
+                    var el = document.createElement('div');
+                    el.className = 'particle';
                     el.innerText = particles[Math.floor(Math.random() * particles.length)];
-                    el.style.left = Math.random() * 100 + 'vw';
-                    
-                    const size = Math.random() * 1.2 + 0.5;
-                    el.style.fontSize = size + 'rem';
-                    
-                    const duration = Math.random() * 10 + 10;
+                    el.style.left = (Math.random() * 92 + 4) + '%';
+                    el.style.fontSize = (Math.random() * 1.2 + 0.5) + 'rem';
+                    var duration = Math.random() * 10 + 10;
                     el.style.animationDuration = duration + 's';
-                    
                     container.appendChild(el);
-                    setTimeout(() => {
-                        el.remove();
+                    setTimeout(function() {
+                        if (el && el.parentNode) el.parentNode.removeChild(el);
                     }, duration * 1000);
                 }
-                
+
                 setInterval(createParticle, 800);
-                for(let i=0; i<6; i++) {
+                for (var i = 0; i < 6; i++) {
                     setTimeout(createParticle, i * 200);
                 }
             }
-        });
+
+            window.openInvitation = function() {
+                if (isOpen) return;
+                isOpen = true;
+
+                if (inviteCheckbox) inviteCheckbox.checked = true;
+                document.body.className += ' is-open';
+
+                if (mainContent) {
+                    mainContent.style.display = 'flex';
+                }
+
+                // Audio playback within user action thread
+                if (audio) {
+                    try {
+                        var playPromise = audio.play();
+                        if (playPromise !== undefined && playPromise.then) {
+                            playPromise.then(function() {
+                                if (audioToggle) audioToggle.classList.remove('opacity-0');
+                                if (iconMuted) iconMuted.classList.add('hidden');
+                                if (iconUnmuted) iconUnmuted.classList.remove('hidden');
+                            }).catch(function() {
+                                if (audioToggle) audioToggle.classList.remove('opacity-0');
+                                if (iconMuted) iconMuted.classList.remove('hidden');
+                                if (iconUnmuted) iconUnmuted.classList.add('hidden');
+                            });
+                        } else {
+                            if (audioToggle) audioToggle.classList.remove('opacity-0');
+                        }
+                    } catch (err) {
+                        if (audioToggle) audioToggle.classList.remove('opacity-0');
+                    }
+                }
+
+                setTimeout(function() {
+                    if (envelopeCover) {
+                        envelopeCover.style.display = 'none';
+                    }
+                }, 900);
+
+                // Double RAF ensures Safari finishes rendering after flex display change
+                if (window.requestAnimationFrame) {
+                    requestAnimationFrame(function() {
+                        requestAnimationFrame(function() {
+                            initReveals();
+                            startFloatingParticles();
+                        });
+                    });
+                } else {
+                    setTimeout(function() {
+                        initReveals();
+                        startFloatingParticles();
+                    }, 50);
+                }
+            };
+
+            if (btnOpen) {
+                btnOpen.addEventListener('click', window.openInvitation, false);
+                btnOpen.addEventListener('touchend', function(e) {
+                    e.preventDefault();
+                    window.openInvitation();
+                }, false);
+            }
+
+            if (inviteCheckbox) {
+                inviteCheckbox.addEventListener('change', function() {
+                    if (inviteCheckbox.checked) window.openInvitation();
+                });
+            }
+
+            if (audioToggle) {
+                audioToggle.addEventListener('click', function() {
+                    if (!audio) return;
+                    try {
+                        if (audio.paused || audio.muted) {
+                            audio.muted = false;
+                            var p = audio.play();
+                            if (p && p.then) {
+                                p.then(function() {
+                                    if (iconMuted) iconMuted.classList.add('hidden');
+                                    if (iconUnmuted) iconUnmuted.classList.remove('hidden');
+                                }).catch(function() {});
+                            }
+                        } else {
+                            audio.pause();
+                            if (iconUnmuted) iconUnmuted.classList.add('hidden');
+                            if (iconMuted) iconMuted.classList.remove('hidden');
+                        }
+                    } catch (e) {}
+                });
+            }
+
+            // iOS-safe Date constructor (Month index 10 = November; 5:00 PM = 17:00:00)
+            var targetDate = new Date(2026, 10, 1, 17, 0, 0).getTime();
+
+            function pad2(n) {
+                return n < 10 ? '0' + n : '' + n;
+            }
+
+            function updateCountdown() {
+                var now = new Date().getTime();
+                var distance = targetDate - now;
+
+                var elDays = document.getElementById('cd-days');
+                var elHours = document.getElementById('cd-hours');
+                var elMins = document.getElementById('cd-mins');
+                var elSecs = document.getElementById('cd-secs');
+
+                if (isNaN(distance) || distance < 0) {
+                    if (elDays) elDays.innerText = '00';
+                    if (elHours) elHours.innerText = '00';
+                    if (elMins) elMins.innerText = '00';
+                    if (elSecs) elSecs.innerText = '00';
+                    return;
+                }
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (elDays) elDays.innerText = pad2(days);
+                if (elHours) elHours.innerText = pad2(hours);
+                if (elMins) elMins.innerText = pad2(minutes);
+                if (elSecs) elSecs.innerText = pad2(seconds);
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        })();
     </script>
 </body>
 </html>
